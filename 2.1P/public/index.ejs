@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="chris wen">
+    <meta name="studentId" content="s224212855">
+    <meta name="description" content="unit task 2.1P">
+    <title>task 2.1P</title>
+    <style>
+        header {
+            background-color: pink;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 100px;
+        }
+
+        header h1 {}
+
+        header nav ul {
+            padding-left: 100px;
+            display: flex;
+        }
+
+        header nav ul li {
+            width: 100px;
+        }
+
+        main {
+            margin-top: 200px;
+            padding-left: 100px;
+        }
+
+        main div span {
+            display: flex;
+            align-items: center;
+            width: 400px;
+        }
+
+        main div span p {
+            display: inline-block;
+            size: 20px;
+            padding-left: 100px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Contact Info</h1>
+        <nav>
+            <ul>
+                <li><a href="mailto:s224212855@deakin.edu.au">Email</a></li>
+                <li><a href="https://www.linkedin.com/in/chris-yp-wen/">Linkedin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <h2>Day Time: <%= dayTime %>
+            </h2>
+            <span>Name: <p><%= realName %></p></span>
+            <span>Prefer Name: <p><%= preferName %></p></span>
+            <span>Student ID: <p><%= studentId %></p></span>
+        </div>
+    </main>
+</body>
+
+</html>
