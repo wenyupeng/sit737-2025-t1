@@ -1,0 +1,25 @@
+{
+  "name": "sit737-2025-t1",
+  "version": "1.0.0",
+  "description": "deakin unit sit737 task 4.1P",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wenyupeng/sit737-2025-t1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wenyupeng/sit737-2025-t1/issues"
+  },
+  "homepage": "https://github.com/wenyupeng/sit737-2025-t1#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "winston": "^3.17.0"
+  }
+}

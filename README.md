@@ -4,7 +4,7 @@ deakin unit sit737
 # How to run the code?
 To run the code, you need to install node.js and npm. Then, you can run the following commands in the terminal:
 
-fisrt cd into the project directory:
+fisrt, cd into the project directory:
 ```bash
 cd 2.1P
 ```
@@ -16,4 +16,5 @@ npm dev
 ```
 This will install the dependencies and start the development server. Open your browser and go to `http://localhost:3000` to see the app running.
 
+> if you get an error like `Cannot find module 'nodemon'`, you can install it by running `npm install -g nodemon` in the terminal.
 
