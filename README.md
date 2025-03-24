@@ -4,9 +4,16 @@ deakin unit sit737
 # How to run the code?
 To run the code, you need to install node.js and npm. Then, you can run the following commands in the terminal:
 
-fisrt, cd into the project directory:
+Fisrt, cd into the project directory:
+
+If the task is 2.1P, run:
 ```bash
 cd 2.1P
+```
+
+If the task is 4.1P, run:
+```bash
+cd 4.1P
 ```
 
 Then, install the dependencies and start the development server:
