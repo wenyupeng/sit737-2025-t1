@@ -1,2 +1,0 @@
-{"level":"info","message":"Received request to add 1 and 2","service":"arithmetic-service"}
-{"level":"info","message":"Result of addition is 3","service":"arithmetic-service"}
