@@ -1,0 +1,16 @@
+services:
+  web:
+    restart: always
+    container_name: sit737-51p-web
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: chrisyp/sit737-51p-web:v1
+    ports: 
+      - "3000:3000"
+    healthcheck:
+      test: curl -fs http://localhost:3000/health || exit 1
+      interval: 1s
+      timeout: 1s
+      retries: 1
+      start_period: 5s
