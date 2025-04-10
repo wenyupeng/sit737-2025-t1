@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sit737-61p
+  name: sit737-61p
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sit737-61p
+  template:
+    metadata:
+      labels:
+        app: sit737-61p
+    spec:
+      containers:
+      - image: chrisyp/sit737-61p:v1
+        name: sit737-61p
