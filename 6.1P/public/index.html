@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 6.1P</title>
+</head>
+<body>
+    <h1>Welcome to Task 6.1P</h1>
+    <p>Student Name: <span>Yupeng Wen</span></p>
+    <p>Date: <span id="dateTime">####</span></p>
+    <script>
+        fetch('/datetime',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res=>{
+            if(res.ok){
+                return res.json();
+            }else{
+                return Promise.reject(new Error('Network response was not ok'));
+            }
+        })
+        .then(data=>{
+            document.getElementById('dateTime').innerHTML = data.date;
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+
+    </script>
+</body>
+</html>
