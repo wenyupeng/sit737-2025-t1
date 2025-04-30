@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9.1P</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E3A8A',
+                        secondary: '#FBBF24',
+                        accent: '#F472B6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white">
+    <header class="w-full bg-primary text-white flex items-center justify-center py-4 px-8 shadow-md">
+        <button id="add" class="px-8 hover:bg-secondary hover:text-black">ADD</button>
+        <button id="update" class="px-8 hover:bg-secondary hover:text-black">UPDATE</button>
+        <button id="get" class="px-8 hover:bg-secondary hover:text-black">GET</button>
+        <button id="delete" class="px-8 hover:bg-secondary hover:text-black">DELETE</button>
+    </header>
+    <script>   
+        const addButton = document.getElementById('add');
+        const updateButton = document.getElementById('update');
+        const getButton = document.getElementById('get');
+        const deleteButton = document.getElementById('delete');
+
+        addButton.addEventListener('click', () => {
+            fetch('/api/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+        });
+
+        updateButton.addEventListener('click', () => {
+            fetch('/api/update', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+        });
+
+        getButton.addEventListener('click', () => {
+            fetch('/api/get')
+            .then(response => response.json())
+            .then(data => alert(JSON.stringify(data)))
+            .catch(error => console.error('Error:', error));
+        });
+
+        deleteButton.addEventListener('click', () => {
+            fetch('/api/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+        });
+
+    </script>
+</body>
+</html>
