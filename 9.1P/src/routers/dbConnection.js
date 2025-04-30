@@ -1,8 +1,13 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
 dotenv.config();
+const user = process.env.MONGO_USER;
+const pass = process.env.MONGO_PASS;
+const hosts = process.env.MONGO_HOSTS;
+const replicaSet = process.env.MONGO_REPLICA_SET;
 
-const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/mydatabase';
+const uri = `mongodb://${user}:${pass}@${hosts}/?replicaSet=${replicaSet}` || 'mongodb://localhost:27017/mydatabase';
+
 const client = new MongoClient(uri, {
     serverApi: {
         version: '1',
