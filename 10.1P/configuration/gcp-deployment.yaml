@@ -1,0 +1,58 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "sit737-10-1p"
+  namespace: "default"
+  labels:
+    app: "sit737-10-1p"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "sit737-10-1p"
+  template:
+    metadata:
+      labels:
+        app: "sit737-10-1p"
+    spec:
+      containers:
+      - name: "10-1p-sha256-1"
+        image: "australia-southeast2-docker.pkg.dev/striped-sunspot-458709-h2/sit737/10-1p@sha256:7f87fb79bff7c25fb2499c07517c101f6342626011e662dfa071bed1b211b5c3"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "sit737-10-1p-hpa-modq"
+  namespace: "default"
+  labels:
+    app: "sit737-10-1p"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "sit737-10-1p"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "sit737-10-1p-service"
+  namespace: "default"
+  labels:
+    app: "sit737-10-1p"
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: "sit737-10-1p"
+  type: "LoadBalancer"
+  loadBalancerIP: ""
