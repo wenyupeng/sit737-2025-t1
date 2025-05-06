@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: 10-1p-web
+  name: 10-1p-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 10-1p-web
+  template:
+    metadata:
+      labels:
+        app: 10-1p-web
+    spec:
+      containers:
+      - image: australia-southeast2-docker.pkg.dev/sit737-25t1-chris-wen-aaefa1c/sit737-task/10-1p:v1
+        name: 10-1p
