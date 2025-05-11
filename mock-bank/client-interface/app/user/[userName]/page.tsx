@@ -1,5 +1,6 @@
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { connectToDatabase } from '@/lib/mongodb';
+import { User } from "@/models/User";
 
 interface User {
     name: string;
@@ -9,44 +10,23 @@ interface User {
 }
 
 interface PageProps {
-    params: Promise<{ userName: string }>; 
+    params: {
+        userName: string;
+    };
 }
 
-export default async function UserPage({ params }: PageProps) { 
+export default async function UserPage({ params }: PageProps) {
     const { userName } = await params;
     const decodedUserName = decodeURIComponent(userName);
 
-    const headersList = await headers();
-    const host = headersList.get("host");
-    const protocol = host?.includes("localhost") ? "http" : "https";
-
-    let users: User[] = [];
-
-    try {
-        const res = await fetch(`${protocol}://${host}/api/users`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            cache: "no-store",
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch users");
-        users = await res.json();
-    } catch (error) {
-        console.error("Failed to fetch users:", error);
-        notFound();
-    }
+    await connectToDatabase();
+    const users: User[] = await User.find({});
     const user = users.find(
-        (u) => {
-            console.log("u.name", u.name.toLowerCase().replaceAll(" ", ""));
-            console.log("userName", decodedUserName.toLowerCase().replaceAll(" ", ""));
-            return u.name.toLowerCase().replaceAll("%20", "") === decodedUserName.toLowerCase().replaceAll("", "");
-        }
+        (u) =>
+            u.name.toLowerCase().replace(/\s+/g, "") ===
+            decodedUserName.toLowerCase().replace(/\s+/g, "")
     );
 
-    console.log("user", user);
     if (!user) {
         notFound();
     }
