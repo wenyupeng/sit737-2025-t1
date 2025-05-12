@@ -4,6 +4,7 @@ metadata:
   name: mongodb-rs
   namespace: default
 spec:
+  clusterIP: None
   ports:
   - port: 27017
     protocol: TCP

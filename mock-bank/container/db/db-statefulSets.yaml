@@ -38,6 +38,13 @@ spec:
             - name: data
               mountPath: /data
               readOnly: false
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
       volumes:
         - name: conf
           configMap:
@@ -51,4 +58,5 @@ spec:
         resources:
           requests:
             storage: 300Gi
-        storageClassName: demo-storage
+        # storageClassName: demo-storage
+        storageClassName: standard

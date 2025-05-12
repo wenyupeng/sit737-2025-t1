@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {logInfo, logError} from '@/lib/logger';
 
 const user = process.env.MONGO_USER;
 const pass = process.env.MONGO_PASS;
@@ -7,7 +8,8 @@ const replicaSet = process.env.MONGO_REPLICA_SET;
 
 const MONGODB_URI = user ? `mongodb://${user}:${pass}@${hosts}/mock-bank?authSource=admin&replicaSet=${replicaSet}` : 'mongodb://admin:adminpwd@localhost:27017/mock-bank?authSource=admin';
 
-console.log('MONGODB_URI', MONGODB_URI);
+logInfo('MONGODB_URI', MONGODB_URI);
+
 if (!MONGODB_URI) {
     throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
