@@ -1,46 +1,54 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo
+  name: mongodb-rs
 spec:
-  serviceName: "mongo"
+  serviceName: mongodb-rs
   replicas: 3
   selector:
     matchLabels:
-      app: mongo
+      app: mongodb-rs
   template:
     metadata:
       labels:
-        app: mongo
+        app: mongodb-rs
     spec:
       containers:
         - name: mongo
-          image: mongo:4.0.8
+          image: mongo:4.4.10
           ports:
             - containerPort: 27017
-          env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: mongodb-config
-                  key: username
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb-secret
-                  key: password
+              name: mongo-pod-port
+          command: ["sh"]
           args:
-            - "--replSet=rs0"
-            - "--bind_ip_all"
+            - "-c"
+            - |
+              set -ex
+              mongod --config /data/configdb/mongod_rs.conf
+              sleep infinity              
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
           volumeMounts:
-            - name: mongo-volume
-              mountPath: /data/db
+            - name: conf
+              mountPath: /data/configdb
+              readOnly: false
+            - name: data
+              mountPath: /data
+              readOnly: false
+      volumes:
+        - name: conf
+          configMap:
+            name: mongodb-rs-cm
+            defaultMode: 0600
   volumeClaimTemplates:
     - metadata:
-        name: mongo-volume
+        name: data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: demo-storage
         resources:
           requests:
-            storage: 1Gi
+            storage: 300Gi
+        storageClassName: demo-storage

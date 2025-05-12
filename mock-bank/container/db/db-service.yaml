@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo
+  name: mongodb-rs
+  namespace: default
 spec:
   ports:
-    - name: mongo
-      port: 27017
-      targetPort: 27017
-  clusterIP: None
+  - port: 27017
+    protocol: TCP
+    targetPort: mongo-pod-port
   selector:
-    app: mongo
+    app: mongodb-rs
+  type: ClusterIP

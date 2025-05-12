@@ -10,9 +10,7 @@ interface User {
 }
 
 interface PageProps {
-    params: {
-        userName: string;
-    };
+    params: Promise<{ userName: string }>; 
 }
 
 export default async function UserPage({ params }: PageProps) {

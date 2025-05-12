@@ -9,3 +9,11 @@ export async function GET() {
     return NextResponse.json(users);
 }
 
+export async function POST(request: Request) {
+    await connectToDatabase();
+    const { name, studentId,gender, email } = await request.json();
+    const newUser = new User({ name, studentId,gender, email });
+    console.log('newUser', newUser);
+    await newUser.save();
+    return NextResponse.json(newUser, { status: 201 });
+}

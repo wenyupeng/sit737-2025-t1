@@ -9,10 +9,16 @@ export default function UserPage() {
     const router = useRouter();
 
     const handleSearch = () => {
-        if(userName.trim() !== '') {
+        if (userName.trim() !== '') {
             router.push(`/user/${userName}`);
         }
     };
+
+    const addUsers = () => {
+        // Logic to add new customers goes here
+        console.log('Add new customers clicked!');
+        router.push('/user/add');
+    }
 
     return (
         <main>
@@ -26,9 +32,15 @@ export default function UserPage() {
                     onChange={(e) => setUserName(e.target.value)}
                     className="border border-gray-300 rounded-lg p-2 mb-4"
                 />
-                <button onClick={handleSearch} 
-                    className='bg-blue-500 text-white px-4 py-2 rounded'
-                >Search</button>
+                <div className='flex flex-col items-center'>
+                    <button onClick={handleSearch}
+                        className='bg-blue-500 w-full text-white px-4 py-2 rounded'
+                    >Search</button>
+
+                    <button onClick={addUsers}
+                        className='bg-red-500 w-full text-white px-4 py-2 rounded mt-4'
+                    >Add New Customers</button>
+                </div>
             </div>
         </main>
     );
