@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: client-interface-svc
+  name: client-interface-svc
+spec:
+  ports:
+  - name: 3000-80
+    port: 3000
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: client-interface
+  type: NodePort

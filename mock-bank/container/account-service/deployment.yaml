@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: client-interface
+  name: client-interface
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-interface
+  template:
+    metadata:
+      labels:
+        app: client-interface
+    spec:
+      containers:
+      - image: australia-southeast2-docker.pkg.dev/striped-sunspot-458709-h2/sit737/client-interface:v1
+        name: client-interface
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-auth
+              key: mongo-root-username
+        - name: MONGO_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-auth
+              key: mongo-root-password
+        - name: MONGO_HOSTS
+          value: "mongodb-rs-0.mongodb-rs.default.svc.cluster.local:27017,mongodb-rs-1.mongodb-rs.default.svc.cluster.local:27017,mongodb-rs-2.mongodb-rs.default.svc.cluster.local:27017"
+        - name: MONGO_REPLICA_SET
+          value: "rs0"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
