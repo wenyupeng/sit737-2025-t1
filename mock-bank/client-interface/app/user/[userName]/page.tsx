@@ -2,14 +2,23 @@ import { notFound } from "next/navigation";
 import { connectToDatabase } from '@/lib/mongodb';
 import { User } from "@/models/User";
 import { logInfo } from "@/lib/logger";
-import { log } from "console";
 
 interface User {
     userName: string;
     password: string;
     accountId: string;
-    createAt: string;
+    createdAt: string;
     updateAt: string;
+}
+
+interface Transaction {
+    transactionId: string;
+    transactionType: string;
+    transactionAmount: number;
+    transactionDate: string;
+    fromAccountId: string;
+    toAccountId: string;
+    status: string;
 }
 
 interface PageProps {
@@ -64,8 +73,8 @@ export default async function UserPage({ params }: PageProps) {
     if (!transactionData) {
         notFound();
     }
-    const transactions = transactionData;
-    
+    const transactions: Transaction[] = transactionData;
+
 
     return (
         <main className="flex items-center justify-center min-h-screen py-8 bg-black-100">
@@ -92,7 +101,7 @@ export default async function UserPage({ params }: PageProps) {
                             {transactions?.length ? (
                                 transactions.map((txn, index) => (
                                     <li key={index}>
-                                        {txn.description} - {txn.amount} ({new Date(txn.date).toLocaleDateString()})
+                                        {txn.transactionType} - {txn.transactionAmount} ({new Date(txn.transactionDate).toLocaleDateString()})
                                     </li>
                                 ))
                             ) : (
