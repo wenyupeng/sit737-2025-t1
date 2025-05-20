@@ -5,6 +5,7 @@ metadata:
     app: account-service-svc
   name: account-service-svc
 spec:
+  clusterIP: None
   ports:
   - name: 3000-80
     port: 3000
@@ -12,4 +13,4 @@ spec:
     targetPort: 80
   selector:
     app: account-service
-  type: NodePort
+  type: ClusterIP

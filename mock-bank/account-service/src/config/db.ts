@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {logInfo} from "./logger"
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -9,6 +10,7 @@ const replicaSet = process.env.MONGO_REPLICA_SET;
 
 const MONGODB_URI = user ? `mongodb://${user}:${pass}@${hosts}/mock-bank?authSource=admin&replicaSet=${replicaSet}` : 'mongodb://admin:adminpwd@localhost:27017/mock-bank?authSource=admin';
 
+logInfo(`MongoDB URI: ${MONGODB_URI}`)
 
 const connectDB = async () => {
   try {
