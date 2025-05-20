@@ -12,7 +12,7 @@ export const getBalance = async (accountId: string) => {
             logError(`Balance for account ${accountId} not found`);
             return null;
         }
-    } catch (error) {
+    } catch (error: any) {
         logError(`Error getting balance for account ${accountId}: ${error.message}`);
         return null;
     }
@@ -32,7 +32,7 @@ export const updateBalance = async (accountId: string, balance: number, updateDa
             logError(`Error updating balance for account ${accountId}`);
             return null;
         }
-    } catch (error) {
+    } catch (error: any) {
         logError(`Error updating balance for account ${accountId}: ${error.message}`);
         return null;
     }
@@ -49,7 +49,7 @@ export const createBalance = async (accountId: string, balance: number, createdD
             logError(`Error creating balance for account ${accountId}`);
             return null;
         }
-    } catch (error) {
+    } catch (error: any) {
         logError(`Error creating balance for account ${accountId}: ${error.message}`);
         return null;
     }

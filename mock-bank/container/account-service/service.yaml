@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: client-interface-svc
-  name: client-interface-svc
+    app: account-service-svc
+  name: account-service-svc
 spec:
   ports:
   - name: 3000-80
@@ -11,5 +11,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: client-interface
+    app: account-service
   type: NodePort

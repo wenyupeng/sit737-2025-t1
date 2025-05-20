@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: client-interface
-  name: client-interface
+    app: balance-service
+  name: balance-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: client-interface
+      app: balance-service
   template:
     metadata:
       labels:
-        app: client-interface
+        app: balance-service
     spec:
       containers:
-      - image: australia-southeast2-docker.pkg.dev/striped-sunspot-458709-h2/sit737/client-interface:v1
-        name: client-interface
+      - image: australia-southeast2-docker.pkg.dev/striped-sunspot-458709-h2/sit737/balance-service:v1
+        name: balance-service
         ports:
         - containerPort: 3000
         env:
@@ -31,9 +31,25 @@ spec:
               name: mongodb-auth
               key: mongo-root-password
         - name: MONGO_HOSTS
-          value: "mongodb-rs-0.mongodb-rs.default.svc.cluster.local:27017,mongodb-rs-1.mongodb-rs.default.svc.cluster.local:27017,mongodb-rs-2.mongodb-rs.default.svc.cluster.local:27017"
+          valueFrom:
+            configMapKeyRef:
+              name: app-cm
+              key: MONGO_HOSTS
         - name: MONGO_REPLICA_SET
-          value: "rs0"
+          valueFrom:
+            configMapKeyRef:
+              name: app-cm
+              key: MONGO_REPLICA_SET
+        - name: BALANCE_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: app-cm
+              key: BALANCE_SERVICE
+        - name: ACCOUNT_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: app-cm
+              key: ACCOUNT_SERVICE         
         resources:
           requests:
             memory: "64Mi"

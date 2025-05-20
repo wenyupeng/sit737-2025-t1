@@ -9,7 +9,11 @@ const balanceSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  date: {
+  createdDate: {
+    type: Date,
+    required: true,
+  },
+  updateDate: {
     type: Date,
     required: true,
   },

@@ -1,10 +1,11 @@
-import mongoose,{Schema,models,model} from "mongoose";
+import {Schema,models,model} from "mongoose";
 
 const UserSchema = new Schema({
-    name: { type: String, required: true },
-    studentId: { type: String, required: true, unique: true },
-    gender: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    userName: { type: String, required: true },
+    password: { type: String, required: true },
+    accountId: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    updateAt: { type: Date, default: Date.now },
 });
 
 export const User = models.User || model("User", UserSchema);

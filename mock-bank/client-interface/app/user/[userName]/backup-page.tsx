@@ -34,7 +34,7 @@ export default async function UserPage({ params }: PageProps) {
 
         if (!res.ok) throw new Error("Failed to fetch users");
         users = await res.json();
-    } catch (error) {
+    } catch (error: any) {
         console.error("Failed to fetch users:", error);
         notFound();
     }

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { TransactionType } from "./TransactionType";
 
 const transactionSchema = new mongoose.Schema({
     transactionId: {
@@ -7,7 +8,8 @@ const transactionSchema = new mongoose.Schema({
         unique: true,
     },
     transactionType: {
-        type: TransactionType,
+        type: String,
+        enum: Object.values(TransactionType),
         required: true,
     },
     transactionAmount: {

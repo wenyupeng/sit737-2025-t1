@@ -1,11 +1,11 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, RequestHandler } from "express";
 import { createTransaction, getTransactionById, getTransactionsByAccountId } from "../service/transactionService";
 import { logInfo, logError } from "../config/logger";
 
 const transactionRoute = Router();
 
 // GET /transaction/:transactionId
-transactionRoute.get('/:transactionId', async (req: Request, res: Response) => {
+transactionRoute.get('/:transactionId', (async (req, res) => {
     const transactionId = req.params.transactionId;
     logInfo(`GET /transaction/${transactionId}`);
 
@@ -20,10 +20,10 @@ transactionRoute.get('/:transactionId', async (req: Request, res: Response) => {
         logError(error.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
-});
+}) as RequestHandler);
 
 // GET /transaction?accountId=123
-transactionRoute.get('/', async (req: Request, res: Response) => {
+transactionRoute.get('/', (async (req, res) => {
     const accountId = req.query.accountId as string;
     logInfo(`GET /transaction?accountId=${accountId}`);
 
@@ -38,10 +38,10 @@ transactionRoute.get('/', async (req: Request, res: Response) => {
         logError(error.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
-});
+}) as RequestHandler);
 
 // POST /transaction
-transactionRoute.post('/', async (req: Request, res: Response) => {
+transactionRoute.post('/', (async (req, res) => {
     const transaction = req.body;
     logInfo('POST /transaction');
 
@@ -56,6 +56,6 @@ transactionRoute.post('/', async (req: Request, res: Response) => {
         logError(error.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
-});
+}) as RequestHandler);
 
 export { transactionRoute };
