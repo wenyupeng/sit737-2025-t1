@@ -7,7 +7,7 @@ const pass = process.env.MONGO_PASS;
 const hosts = process.env.MONGO_HOSTS;
 const replicaSet = process.env.MONGO_REPLICA_SET;
 
-const MONGODB_URI = user ? `mongodb://${user}:${pass}@${hosts}/mock-bank?authSource=admin&replicaSet=${replicaSet}` || 'mongodb://admin:adminpwd@localhost:27017/mock-bank?authSource=admin';
+const MONGODB_URI = user ? `mongodb://${user}:${pass}@${hosts}/mock-bank?authSource=admin&replicaSet=${replicaSet}` : 'mongodb://admin:adminpwd@localhost:27017/mock-bank?authSource=admin';
 
 
 const connectDB = async () => {
