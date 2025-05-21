@@ -32,8 +32,14 @@ export const createTransaction = async (transaction: TransactionParams) => {
 
     try{
         await newTransaction.save();
-        await Balance.updateOne({ accountId: fromAccountId }, { $inc: { balance: -transactionAmount } });
-        await Balance.updateOne({ accountId: toAccountId }, { $inc: { balance: transactionAmount } });
+        if (transactionType === 'deposit') {
+            await Balance.updateOne({ accountId: fromAccountId }, { $inc: { balance: +transactionAmount } });
+        }else if (transactionType === 'withdraw') {
+            await Balance.updateOne({ accountId: fromAccountId }, { $inc: { balance: -transactionAmount } });
+        }else if (transactionType === 'transfer') {
+            await Balance.updateOne({ accountId: fromAccountId }, { $inc: { balance: -transactionAmount } });
+            await Balance.updateOne({ accountId: toAccountId }, { $inc: { balance: transactionAmount } });
+        }
         logInfo(`Transaction created: ${newTransaction}`);
         await Transaction.updateOne({ _id: newTransaction._id }, { $set: { status: 'completed' } });
         logInfo(`Transaction status updated: ${newTransaction}`);
