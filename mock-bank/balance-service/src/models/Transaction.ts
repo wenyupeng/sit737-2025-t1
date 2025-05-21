@@ -26,7 +26,7 @@ const transactionSchema = new mongoose.Schema({
     },
     toAccountId: {
         type: String,
-        required: true,
+        required: false,
     },
     status: {
         type: String,

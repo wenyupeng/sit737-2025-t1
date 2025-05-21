@@ -4,7 +4,14 @@ import { User } from '@/models/User';
 import { logInfo, logError } from '@/lib/logger';
 import bcrypt from 'bcrypt';
 
-const accountService = process.env.ACCOUNT_SERVICE || 'http://localhost:3002';
+let accountService = process.env.ACCOUNT_SERVICE || 'http://localhost:3002';
+
+if (accountService === 'http://localhost:3002') {
+    logInfo('Using local account service');
+} else {
+    logInfo('Using remote account service');
+    accountService = accountService + ':3000';
+}
 
 export async function GET() {
     logInfo('GET /api/users called');
@@ -52,7 +59,7 @@ export async function POST(request: Request) {
         await newUser.save();
         logInfo(`User created [${userName}]`);
 
-        const response = await fetch(`${accountService}:3000/api/accounts`, {
+        const response = await fetch(`${accountService}/api/accounts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

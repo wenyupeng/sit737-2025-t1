@@ -2,7 +2,14 @@ import { Router, Request, Response, RequestHandler } from "express";
 import Account from '../models/Account'
 import { logInfo } from "../config/logger";
 
-const balanceService = process.env.BALANCE_SERVICE || 'http://localhost:3001';
+let balanceService = process.env.BALANCE_SERVICE || 'http://localhost:3001';
+
+if (balanceService === 'http://localhost:3001') {
+    logInfo('Using local balance service');
+} else {
+    logInfo('Using remote balance service');
+    balanceService = balanceService + ':3000';
+}
 
 const accountRoute = Router();
 
@@ -40,7 +47,7 @@ accountRoute.post('/', ((async (req: Request, res: Response) => {
         await account.save();
         logInfo('Account created', { accountId });
 
-        const response = await fetch(`${balanceService}:3000/api/balance`, {
+        const response = await fetch(`${balanceService}/api/balance`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

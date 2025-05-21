@@ -1,6 +1,7 @@
 import { Router, Request, Response, RequestHandler } from "express";
 import { createTransaction, getTransactionById, getTransactionsByAccountId } from "../service/transactionService";
 import { logInfo, logError } from "../config/logger";
+import { log } from "console";
 
 const transactionRoute = Router();
 
@@ -40,7 +41,7 @@ transactionRoute.get('/', (async (req, res) => {
     }
 }) as RequestHandler);
 
-// POST /transaction
+// POST /api/transaction
 transactionRoute.post('/', (async (req, res) => {
     const transaction = req.body;
     logInfo('POST /transaction');
@@ -48,6 +49,7 @@ transactionRoute.post('/', (async (req, res) => {
     if (!transaction) {
         return res.status(400).json({ message: "Transaction data is required" });
     }
+    logInfo(`Transaction data: ${JSON.stringify(transaction)}`);
 
     try {
         const newTransaction = await createTransaction(transaction);

@@ -15,7 +15,7 @@ export const createTransaction = async (transaction: TransactionParams) => {
     const fromAccount = await Balance.findOne({ accountId: fromAccountId });
     const toAccount = await Balance.findOne({ accountId: toAccountId });
 
-    if (!fromAccount || !toAccount) {
+    if ( !fromAccount || (!toAccount && transactionType === 'transfer') ) {
         logInfo(`Account not found for transaction: ${transaction}`);
         return null;
     }

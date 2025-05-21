@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { connectToDatabase } from '@/lib/mongodb';
 import { User } from "@/models/User";
 import { logInfo } from "@/lib/logger";
+import LogoutButton from "@/components/LogoutButton";
+import TransactionButtons from '@/components/TransactionButtons';
 
 interface User {
     userName: string;
@@ -25,8 +27,22 @@ interface PageProps {
     params: Promise<{ userName: string }>;
 }
 
-const accountService = process.env.ACCOUNT_SERVICE || "http://localhost:3002";
-const balanceService = process.env.BALANCE_SERVICE || "http://localhost:3001";
+let accountService = process.env.ACCOUNT_SERVICE || "http://localhost:3002";
+let balanceService = process.env.BALANCE_SERVICE || "http://localhost:3001";
+
+if (accountService === "http://localhost:3002") {
+    logInfo("Using local account service");
+} else {
+    logInfo("Using remote account service");
+    accountService = accountService + ":3000";
+}
+
+if (balanceService === "http://localhost:3001") {
+    logInfo("Using local balance service");
+} else {
+    logInfo("Using remote balance service");
+    balanceService = balanceService + ":3000";
+}
 
 export default async function UserPage({ params }: PageProps) {
     const { userName } = await params;
@@ -46,7 +62,7 @@ export default async function UserPage({ params }: PageProps) {
         notFound();
     }
 
-    const accountResponse = await fetch(`${accountService}:3000/api/accounts/${user.accountId}`);
+    const accountResponse = await fetch(`${accountService}/api/accounts/${user.accountId}`);
     if (!accountResponse.ok) {
         logInfo(`Error fetching account for user ${user.userName}: ${accountResponse.status}`);
         notFound();
@@ -57,7 +73,7 @@ export default async function UserPage({ params }: PageProps) {
     }
     const account = accountData[0];
 
-    const balanceResponse = await fetch(`${balanceService}:3000/api/balance?accountId=${user.accountId}`);
+    const balanceResponse = await fetch(`${balanceService}/api/balance?accountId=${user.accountId}`);
     if (!balanceResponse.ok) {
         logInfo(`Error fetching balance for accountId ${user.accountId}: ${balanceResponse.status}`);
         notFound();
@@ -68,7 +84,7 @@ export default async function UserPage({ params }: PageProps) {
     }
     logInfo(`Balance data: ${JSON.stringify(balanceData)}`);
     const balanceObj = balanceData.balanceObj;
-    const transactionResponse = await fetch(`${balanceService}:3000/api/transaction?accountId=${user.accountId}`);
+    const transactionResponse = await fetch(`${balanceService}/api/transaction?accountId=${user.accountId}`);
     const transactionData = await transactionResponse.json();
     if (!transactionData) {
         notFound();
@@ -110,7 +126,12 @@ export default async function UserPage({ params }: PageProps) {
                         </ul>
                     </div>
                 </div>
+                <TransactionButtons userName={user.userName} accountId={user.accountId}/>
+                <div className="col-span-3 gap-6 bg-gray-50 p-4 rounded-lg flex justify-around">
+                    <LogoutButton />
+                </div>
             </div>
+
         </main>
 
 
