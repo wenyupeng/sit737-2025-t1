@@ -15,7 +15,7 @@ spec:
         app: client-interface
     spec:
       containers:
-      - image: australia-southeast2-docker.pkg.dev/striped-sunspot-458709-h2/sit737/client-interface:v1
+      - image: australia-southeast2-docker.pkg.dev/striped-sunspot-458709-h2/sit737/client-interface:v4
         name: client-interface
         ports:
         - containerPort: 3000
