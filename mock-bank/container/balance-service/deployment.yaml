@@ -20,6 +20,8 @@ spec:
         ports:
         - containerPort: 3000
         env:
+        - name: NODE_ENV
+          value: "production"     
         - name: MONGO_USER
           valueFrom:
             secretKeyRef:
